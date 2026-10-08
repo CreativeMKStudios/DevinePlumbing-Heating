@@ -1,0 +1,100 @@
+---
+import { SITE } from "../data/site";
+import { REVIEWS } from "../data/reviews";
+
+interface Props {
+  crumbs?: { name: string; path: string }[];
+  extra?: Record<string, unknown>[];
+  includeReviews?: boolean;
+}
+
+const { crumbs = [], extra = [], includeReviews = false } = Astro.props;
+const origin = Astro.site ?? new URL("https://devineplumbingandheating.co.uk");
+
+const business: Record<string, unknown> = {
+  "@type": "Plumber",
+  "@id": new URL("/#business", origin).href,
+  name: SITE.name,
+  description: SITE.googleDescription,
+  url: origin.href,
+  telephone: "+447436135412",
+  image: new URL("/og.png", origin).href,
+  hasMap: SITE.mapsUrl,
+  sameAs: [SITE.mapsUrl, SITE.mapsShare],
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: SITE.lat,
+    longitude: SITE.lng,
+  },
+  areaServed: [
+    { "@type": "AdministrativeArea", name: "Bedfordshire" },
+    { "@type": "AdministrativeArea", name: "South Kesteven" },
+  ],
+  address: {
+    "@type": "PostalAddress",
+    addressCountry: "GB",
+    addressRegion: "England",
+  },
+  openingHoursSpecification: [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ].map((day) => ({
+    "@type": "OpeningHoursSpecification",
+    dayOfWeek: day,
+    opens: "00:00",
+    closes: "23:59",
+  })),
+  aggregateRating: {
+    "@type": "AggregateRating",
+    ratingValue: SITE.rating,
+    reviewCount: SITE.reviewCount,
+    bestRating: 5,
+    worstRating: 1,
+  },
+};
+
+if (includeReviews) {
+  business.review = REVIEWS.map((review) => ({
+    "@type": "Review",
+    author: { "@type": "Person", name: review.name },
+    datePublished: review.date,
+    reviewBody: review.text,
+    name: `Google review by ${review.name}`,
+    reviewRating: {
+      "@type": "Rating",
+      ratingValue: review.stars,
+      bestRating: 5,
+      worstRating: 1,
+    },
+    publisher: { "@type": "Organization", name: "Google" },
+  }));
+}
+
+const graph: Record<string, unknown>[] = [business];
+
+if (crumbs.length) {
+  graph.push({
+    "@type": "BreadcrumbList",
+    itemListElement: crumbs.map((crumb, index) => ({
+      "@type": "ListItem",
+      position: index + 1,
+      name: crumb.name,
+      item: new URL(crumb.path, origin).href,
+    })),
+  });
+}
+
+graph.push(...extra);
+
+const data = {
+  "@context": "https://schema.org",
+  "@graph": graph,
+};
+---
+
+<script type="application/ld+json" set:html={JSON.stringify(data)} />

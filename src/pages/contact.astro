@@ -1,0 +1,115 @@
+---
+import Base from "../layouts/Base.astro";
+import { SITE } from "../data/site";
+import { SERVICES } from "../data/services";
+
+const crumbs = [
+  { name: "Home", path: "/" },
+  { name: "Contact", path: "/contact" },
+];
+---
+
+<Base
+  title="Contact Devine Plumbing and Heating"
+  description="Call or text Darren at Devine Plumbing and Heating on 07436 135412. Open 24 hours. No shop address. The Google pin is near Edenham."
+  crumbs={crumbs}
+>
+  <div class="wrap page-hero">
+    <p class="crumbs"><a href="/">Home</a> / Contact</p>
+    <h1>Contact</h1>
+  </div>
+  <section class="section" style="padding-top:0.4rem">
+    <div class="wrap split">
+      <div class="prose">
+        <p>
+          The only contact on the Google profile is the phone. Call or text
+          <a href={SITE.tel}>{SITE.phoneDisplay}</a>. The line is listed as open 24 hours.
+        </p>
+        <p>
+          There is no email address and no shop. The map below is the Google pin near Edenham. Do
+          not drive to it. Darren comes to you.
+        </p>
+        <h2>What speeds a visit up</h2>
+        <ul class="list">
+          <li>Town and postcode</li>
+          <li>What failed, and whether water is still running</li>
+          <li>Boiler make and any fault code</li>
+          <li>A photo, if you can take one safely</li>
+        </ul>
+        <p>
+          If you smell gas, leave the building and call the National Gas Emergency Service on
+          0800 111 999 before you call us.
+        </p>
+        <p><a class="btn" href={SITE.tel}>Call {SITE.phoneDisplay}</a></p>
+      </div>
+      <form class="form" id="enquiry">
+        <h2 style="font-size:1.8rem">Text Darren</h2>
+        <p class="muted">
+          This form does not sit on a server. It opens a text to {SITE.phoneDisplay} with what you typed.
+          On a computer, copy the message if Messages does not open.
+        </p>
+        <label>
+          Your name
+          <input name="name" autocomplete="name" required />
+        </label>
+        <label>
+          Your phone
+          <input name="phone" type="tel" autocomplete="tel" required />
+        </label>
+        <label>
+          Town and postcode
+          <input name="town" autocomplete="postal-code" required />
+        </label>
+        <label>
+          Job
+          <select name="job">
+            <option>Not sure yet</option>
+            {SERVICES.map((service) => <option>{service.title}</option>)}
+          </select>
+        </label>
+        <label>
+          What happened
+          <textarea name="message" required></textarea>
+        </label>
+        <button class="btn" type="submit">Text this enquiry</button>
+        <div class="form-result" id="form-result" hidden></div>
+      </form>
+    </div>
+    <div class="wrap" style="margin-top:1.4rem">
+      <iframe
+        class="map"
+        title="Google map pin for Devine Plumbing and Heating near Edenham"
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade"
+        src="https://maps.google.com/maps?q=52.7814341,-0.4570646&z=11&hl=en&output=embed"
+      ></iframe>
+      <p class="muted">
+        Pin only. <a href={SITE.mapsUrl}>Open the Google profile</a>.
+      </p>
+    </div>
+  </section>
+</Base>
+
+<script define:vars={{ sms: SITE.sms, phone: SITE.phoneDisplay }}>
+  const form = document.querySelector("#enquiry");
+  const result = document.querySelector("#form-result");
+  form?.addEventListener("submit", (event) => {
+    event.preventDefault();
+    if (!(form instanceof HTMLFormElement) || !(result instanceof HTMLElement)) return;
+    const data = new FormData(form);
+    const lines = [
+      "Devine Plumbing enquiry",
+      `Name: ${data.get("name")}`,
+      `Phone: ${data.get("phone")}`,
+      `Place: ${data.get("town")}`,
+      `Job: ${data.get("job")}`,
+      `Details: ${data.get("message")}`,
+    ];
+    const body = lines.join("\n");
+    result.hidden = false;
+    result.innerHTML = `<p><strong>Message ready.</strong> If a text does not open, copy this and send it to ${phone}.</p><p style="white-space:pre-wrap"></p>`;
+    const copy = result.querySelector("p:last-child");
+    if (copy) copy.textContent = body;
+    window.location.href = `${sms}?&body=${encodeURIComponent(body)}`;
+  });
+</script>

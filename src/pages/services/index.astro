@@ -1,0 +1,54 @@
+---
+import { Image } from "astro:assets";
+import Base from "../../layouts/Base.astro";
+import { SERVICES } from "../../data/services";
+import card from "../../assets/services-card.jpg";
+
+const crumbs = [
+  { name: "Home", path: "/" },
+  { name: "Services", path: "/services" },
+];
+---
+
+<Base
+  title="Plumbing and heating services"
+  description="Emergency call-outs, leak repairs, boiler repair and installation, gas fires, taps, showers and maintenance. Devine Plumbing and Heating. Call 07436 135412."
+  crumbs={crumbs}
+>
+  <div class="wrap page-hero">
+    <p class="crumbs"><a href="/">Home</a> / Services</p>
+    <h1>Services</h1>
+    <p class="prose">
+      The list matches the Google card and the work people reviewed. We have not added bathrooms,
+      heat pumps or drains, because the profile does not show those jobs.
+    </p>
+  </div>
+  <section class="section" style="padding-top:1rem">
+    <div class="wrap">
+      <div class="card-grid">
+        {
+          SERVICES.map((service) => (
+            <article class="card">
+              <h2 style="font-size:1.6rem">{service.title}</h2>
+              <p>{service.summary}</p>
+              <p>
+                <a href={`/services/${service.slug}`}>Details</a>
+              </p>
+            </article>
+          ))
+        }
+      </div>
+    </div>
+    <div class="wrap" style="margin-top:1.5rem">
+      <figure class="media" style="max-width:32rem">
+        <Image
+          src={card}
+          alt="Devine Plumbing and Heating card listing 24/7 assistance, leak repair, boiler repair and installation, and Gas Safe registered"
+          widths={[400, 640, 900]}
+          sizes="(max-width: 720px) 100vw, 32rem"
+        />
+        <figcaption class="caption">Service card from the Google profile.</figcaption>
+      </figure>
+    </div>
+  </section>
+</Base>

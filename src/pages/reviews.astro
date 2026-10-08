@@ -1,0 +1,58 @@
+---
+import Base from "../layouts/Base.astro";
+import { SITE } from "../data/site";
+import { REVIEWS, REVIEW_TOPICS } from "../data/reviews";
+
+const crumbs = [
+  { name: "Home", path: "/" },
+  { name: "Reviews", path: "/reviews" },
+];
+---
+
+<Base
+  title="Google reviews"
+  description="Devine Plumbing and Heating is rated 5.0 from 13 Google reviews. Read five reviews in full, with Darren’s replies, and the link to the rest."
+  crumbs={crumbs}
+  includeReviews
+>
+  <div class="wrap page-hero prose wide">
+    <p class="crumbs"><a href="/">Home</a> / Reviews</p>
+    <h1>Reviews</h1>
+    <p>
+      On 8 October 2026 the Google profile showed 5.0 from 13 reviews. Google displayed five of them
+      in full without a sign-in. Those five are copied below, wording unchanged. The other eight are
+      on Google.
+    </p>
+    <p>
+      <a href={SITE.reviewsUrl}>Read all 13 reviews on Google</a>
+    </p>
+    <ul class="topics">
+      {REVIEW_TOPICS.map((topic) => <li>{topic.label} · {topic.count}</li>)}
+    </ul>
+  </div>
+  <section class="section" style="padding-top:1rem">
+    <div class="wrap review-grid">
+      {
+        REVIEWS.map((review) => (
+          <article class="review">
+            <header>
+              <div>
+                <div class="who">{review.name}</div>
+                <div class="muted">
+                  {review.dateLabel} · {review.meta} · Posted on Google
+                </div>
+              </div>
+              <div class="stars" aria-label={`${review.stars} out of 5`}>
+                ★★★★★
+              </div>
+            </header>
+            {review.text.split("\n").map((line) => (line.trim() ? <p>{line}</p> : null))}
+            <p class="reply">
+              <strong>Reply from the owner, {review.replyDate}.</strong> {review.reply}
+            </p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</Base>

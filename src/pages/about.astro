@@ -1,0 +1,73 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import { SITE } from "../data/site";
+import banner from "../assets/banner.png";
+
+const crumbs = [
+  { name: "Home", path: "/" },
+  { name: "Our firm", path: "/about" },
+];
+---
+
+<Base
+  title="About Devine Plumbing and Heating"
+  description="Darren runs Devine Plumbing and Heating. Open 24 hours, local to Bedfordshire, map pin near Edenham. 5.0 from 13 Google reviews. Call 07436 135412."
+  crumbs={crumbs}
+>
+  <div class="wrap page-hero prose">
+    <p class="crumbs"><a href="/">Home</a> / Our firm</p>
+    <h1>Our firm</h1>
+    <p>
+      Devine Plumbing and Heating is Darren’s plumbing business. Customers on Google use his first
+      name, and the owner replies match. We do not add a surname here, because the profile does not
+      print one.
+    </p>
+  </div>
+  <section class="section" style="padding-top:1rem">
+    <div class="wrap split">
+      <div class="prose">
+        <h2>What the profile says</h2>
+        <p>{SITE.googleDescription}</p>
+        <p>
+          That sentence is the firm’s own text on Google. Under it, the listing is a plumber, open
+          24 hours, with the phone {SITE.phoneDisplay}. Google also marks it LGBTQ+ friendly. There
+          is no website, no email address, and no street address on the listing.
+        </p>
+        <p>
+          The map pin is near Edenham, South Kesteven, Lincolnshire, by Four Mile Riding and
+          Grimsthorpe. That is not a shop. Reviews describe Darren coming to the house: on time, for
+          a boiler, a fire, a leak, a Friday night flood.
+        </p>
+        <h2>What customers repeat</h2>
+        <p>
+          James has used him for a couple of years. Laura has used him for a combi boiler, breakdowns
+          and routine visits. Joanna kept his number. Mark said the gas fire job was clean. Nick said
+          he stayed to fix a stopcock he could have walked past.
+        </p>
+        <p>
+          The score on 8 October 2026 was 5.0 from 13 reviews. Five of those reviews are quoted on
+          the <a href="/reviews">reviews page</a>. The rest are on the Google profile.
+        </p>
+        <h2>Gas Safe</h2>
+        <p>
+          The firm’s own Google image says “Gas Safe registered”. James wrote that Darren is on the
+          register. The registration number is not on the profile, so it is not on this site. Ask to
+          see the Gas Safe card when work starts. That card is the check that matters.
+        </p>
+        <p>
+          <a class="btn" href={SITE.tel}>Call {SITE.phoneDisplay}</a>
+        </p>
+      </div>
+      <figure class="media">
+        <Image
+          src={banner}
+          alt="Devine Plumbing and Heating banner from Google, with the phone number 07436135412"
+          widths={[480, 800, 1200]}
+          sizes="(max-width: 720px) 100vw, 50vw"
+        />
+        <figcaption class="caption">Banner image from the Google profile.</figcaption>
+      </figure>
+    </div>
+  </section>
+</Base>

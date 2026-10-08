@@ -1,0 +1,46 @@
+---
+import Base from "../../layouts/Base.astro";
+import { AREAS } from "../../data/areas";
+
+const crumbs = [
+  { name: "Home", path: "/" },
+  { name: "Areas", path: "/areas" },
+];
+---
+
+<Base
+  title="Areas covered"
+  description="Devine Plumbing and Heating says it is local to Bedfordshire. The Google pin is near Edenham, Lincolnshire. Towns, and how to check your street. Call 07436 135412."
+  crumbs={crumbs}
+>
+  <div class="wrap page-hero prose">
+    <p class="crumbs"><a href="/">Home</a> / Areas</p>
+    <h1>Areas</h1>
+    <p>
+      Two facts, both from the Google profile. The description says the firm is local to
+      Bedfordshire. The pin is near Edenham, South Kesteven, Lincolnshire, a few miles from Bourne.
+      There is no list of towns on the profile, and no shop address.
+    </p>
+    <p>
+      The pages below are the main towns in that county and around that pin. They are here so you
+      can check the sort of houses and water you have, then call. They are not a promise that every
+      street is inside a fixed radius.
+    </p>
+  </div>
+  <section class="section" style="padding-top:0.5rem">
+    <div class="wrap area-grid">
+      {
+        AREAS.map((area) => (
+          <article class="area-card">
+            <p class="muted">{area.county}</p>
+            <h2 style="font-size:1.8rem">{area.name}</h2>
+            <p>{area.paragraphs[0]}</p>
+            <p>
+              <a href={`/areas/${area.slug}`}>Plumber in {area.name}</a>
+            </p>
+          </article>
+        ))
+      }
+    </div>
+  </section>
+</Base>
