@@ -1,0 +1,46 @@
+---
+import Base from "../layouts/Base.astro";
+
+const crumbs = [
+  { name: "Home", path: "/" },
+  { name: "Privacy", path: "/privacy" },
+];
+---
+
+<Base
+  title="Privacy"
+  description="How Devine Plumbing and Heating handles this website. No analytics cookies. The contact form opens a text on your phone and is not stored on a server."
+  crumbs={crumbs}
+>
+  <div class="wrap page-hero prose">
+    <p class="crumbs"><a href="/">Home</a> / Privacy</p>
+    <h1>Privacy</h1>
+    <p>
+      This site is for Devine Plumbing and Heating. The phone number is 07436 135412. There is no
+      public email on the Google profile, so this page does not invent one.
+    </p>
+    <h2>What the site stores</h2>
+    <p>
+      The pages are static. There is no account, no shop, and no analytics tool. We do not set
+      tracking cookies. Your browser may still store ordinary files so the pages load faster. That
+      is the browser, not an advert profile.
+    </p>
+    <h2>The text form</h2>
+    <p>
+      The contact form runs in your browser. It builds a text message to 07436 135412 and asks your
+      phone to send it. The words are not posted to a server run by this website. Once you send the
+      text, it is a normal message between you and Darren. Keep it only as long as the job needs.
+    </p>
+    <h2>The map</h2>
+    <p>
+      The contact page embeds Google Maps. Google receives the fact that your browser loaded the map.
+      Their own privacy rules cover that part. The pin is the public Google location. It is not a
+      home address published by us.
+    </p>
+    <h2>Reviews</h2>
+    <p>
+      Review text on this site is copied from the public Google profile. Names are the names shown
+      there. To change or remove a Google review, use Google’s own tools.
+    </p>
+  </div>
+</Base>

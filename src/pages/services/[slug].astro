@@ -1,0 +1,67 @@
+---
+import Base from "../../layouts/Base.astro";
+import { SERVICES, getService } from "../../data/services";
+import { SITE } from "../../data/site";
+
+export function getStaticPaths() {
+  return SERVICES.map((service) => ({ params: { slug: service.slug } }));
+}
+
+const { slug } = Astro.params;
+const service = getService(slug ?? "");
+if (!service) {
+  throw new Error("Missing service");
+}
+
+const crumbs = [
+  { name: "Home", path: "/" },
+  { name: "Services", path: "/services" },
+  { name: service.title, path: `/services/${service.slug}` },
+];
+
+const extraSchema = [
+  {
+    "@type": "Service",
+    name: service.title,
+    description: service.description,
+    provider: { "@id": new URL("/#business", Astro.site).href },
+    areaServed: ["Bedfordshire", "South Kesteven"],
+    url: new URL(`/services/${service.slug}`, Astro.site).href,
+  },
+];
+---
+
+<Base title={service.title} description={service.description} crumbs={crumbs} extraSchema={extraSchema}>
+  <div class="wrap page-hero prose wide">
+    <p class="crumbs">
+      <a href="/">Home</a> / <a href="/services">Services</a> / {service.title}
+    </p>
+    <h1>{service.title}</h1>
+    <p>{service.summary}</p>
+    {service.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
+    <h2>Jobs this covers</h2>
+    <ul class="list">
+      {service.jobs.map((job) => <li>{job}</li>)}
+    </ul>
+    <h2>What to tell us</h2>
+    <ul class="list">
+      {service.bring.map((item) => <li>{item}</li>)}
+    </ul>
+    <p>
+      <a class="btn" href={SITE.tel}>Call {SITE.phoneDisplay}</a>
+    </p>
+    <p>
+      Other work:
+      {
+        SERVICES.filter((item) => item.slug !== service.slug)
+          .slice(0, 3)
+          .map((item, index) => (
+            <>
+              {index > 0 ? ", " : ""}
+              <a href={`/services/${item.slug}`}>{item.menu}</a>
+            </>
+          ))
+      }
+    </p>
+  </div>
+</Base>

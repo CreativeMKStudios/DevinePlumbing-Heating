@@ -1,0 +1,53 @@
+---
+import { Image } from "astro:assets";
+import Base from "../layouts/Base.astro";
+import { PROJECTS } from "../data/projects";
+import fire from "../assets/gas-fire.jpg";
+
+const crumbs = [
+  { name: "Home", path: "/" },
+  { name: "Projects", path: "/projects" },
+];
+---
+
+<Base
+  title="Plumbing projects from Google reviews"
+  description="Real jobs described by Devine Plumbing and Heating customers: a gas fire, a combi boiler, a Friday night flood, and a boiler valve with taps and a dishwasher."
+  crumbs={crumbs}
+>
+  <div class="wrap page-hero prose">
+    <p class="crumbs"><a href="/">Home</a> / Projects</p>
+    <h1>Projects</h1>
+    <p>
+      These are jobs named in Google reviews. Where we have no photo, we have not used a stock picture.
+    </p>
+  </div>
+  <section class="section" style="padding-top:0.5rem">
+    <div class="wrap project-grid">
+      {
+        PROJECTS.map((project) => (
+          <article class="project">
+            <p class="muted">
+              {project.date} · {project.customer}
+            </p>
+            <h2 style="font-size:1.8rem">{project.title}</h2>
+            <p>{project.detail}</p>
+          </article>
+        ))
+      }
+    </div>
+    <div class="wrap" style="margin-top:1.2rem">
+      <figure class="media" style="max-width:40rem">
+        <Image
+          src={fire}
+          alt="Gas fire installed in a tiled fireplace, photo from the Google profile of Devine Plumbing and Heating"
+          widths={[480, 800, 1200]}
+          sizes="(max-width: 800px) 100vw, 40rem"
+        />
+        <figcaption class="caption">
+          The only job photo on the Google profile. It belongs with Mark S’s gas fire review.
+        </figcaption>
+      </figure>
+    </div>
+  </section>
+</Base>

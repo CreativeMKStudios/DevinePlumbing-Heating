@@ -1,0 +1,17 @@
+---
+import Base from "../layouts/Base.astro";
+import { SITE } from "../data/site";
+---
+
+<Base title="Page not found" description="That page is not on the Devine Plumbing and Heating site. Call 07436 135412 or go back to the home page.">
+  <div class="wrap page-hero prose">
+    <h1>Page not found</h1>
+    <p>That address is not on this site. The home page, services and contact page are.</p>
+    <p>
+      <a class="btn" href="/">Back home</a>
+    </p>
+    <p>
+      Or call <a href={SITE.tel}>{SITE.phoneDisplay}</a>.
+    </p>
+  </div>
+</Base>

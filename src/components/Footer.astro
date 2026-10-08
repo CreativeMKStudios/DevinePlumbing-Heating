@@ -1,0 +1,68 @@
+---
+import { SITE } from "../data/site";
+import { SERVICES } from "../data/services";
+import { AREAS } from "../data/areas";
+---
+
+<footer class="site-footer">
+  <div class="wrap footer-grid">
+    <div>
+      <h2>Devine Plumbing and Heating</h2>
+      <p>
+        Darren. Plumber. Open 24 hours. The Google profile says the firm is local to Bedfordshire.
+        The map pin is near Edenham, Lincolnshire. There is no shop address.
+      </p>
+      <p>
+        <a href={SITE.tel}>{SITE.phoneDisplay}</a><br />
+        <a href={SITE.mapsUrl}>Google profile</a>
+      </p>
+    </div>
+    <div>
+      <h2>Services</h2>
+      <ul>
+        {
+          SERVICES.map((service) => (
+            <li>
+              <a href={`/services/${service.slug}`}>{service.title}</a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div>
+      <h2>Areas</h2>
+      <ul>
+        {
+          AREAS.slice(0, 8).map((area) => (
+            <li>
+              <a href={`/areas/${area.slug}`}>
+                {area.name}
+              </a>
+            </li>
+          ))
+        }
+        <li><a href="/areas">All areas</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Firm</h2>
+      <ul>
+        <li><a href="/about">Our firm</a></li>
+        <li><a href="/projects">Projects</a></li>
+        <li><a href="/reviews">Reviews</a></li>
+        <li><a href="/contact">Contact</a></li>
+        <li><a href="/privacy">Privacy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap legal">
+    <p>
+      Google rating {SITE.rating}.0 from {SITE.reviewCount} reviews, checked {SITE.ratingChecked}.
+      Gas Safe is stated on the firm’s own Google card. Ask to see the card on the day. No registration number is published on the profile.
+    </p>
+  </div>
+</footer>
+<div class="callbar">
+  <a href={SITE.tel}>Call</a>
+  <a href={SITE.sms}>Text</a>
+</div>
